@@ -1,0 +1,23 @@
+{
+    "name": "argocd-admin-training",
+    "build": {
+        "dockerfile": "./Dockerfile"
+    },
+    "features": {
+        "ghcr.io/devcontainers/features/docker-in-docker:2": {
+            "enableNonRootDocker": "true",
+            "moby": "true"
+        },
+        "ghcr.io/devcontainers/features/kubectl-helm-minikube:1": {
+            "version": "latest",
+            "helm": "latest",
+            "minikube": "latest"
+        }
+    },
+    "hostRequirements": {
+        "cpus": 4
+    },
+    "forwardPorts": [8080],
+    "postCreateCommand": "/bin/bash -c .devcontainer/post-create.sh",
+    "postStartCommand": "/bin/bash -c .devcontainer/post-start.sh"
+}

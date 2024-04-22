@@ -1,0 +1,31 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# Destination namespace for Argo CD resources
+namespace: argocd
+
+resources:
+  # Namespace for ArgoCD
+  - argocd-ns.yaml
+  # OSS ArgoCD installation manifests
+  - https://raw.githubusercontent.com/argoproj/argo-cd/v2.10.6/manifests/install.yaml
+  # Ingress for ArgoCD
+  - argocd-ingress.yaml
+  # ApplicationSet to generate team applications
+  # - appset.yaml
+
+# Setup multi-tenancy
+# components: [team1]
+
+patches:
+  # Argo CD runtime settings
+  - path: argocd-cmd-params-cm.yaml
+  # Patch to set admin password to "password" (for demo purposes)
+  - patch: |-
+      apiVersion: v1
+      kind: Secret
+      metadata:
+        name: argocd-secret
+      stringData:
+        admin.password: $2a$10$RncPyHW/B5ll2Z3J8s.IBOnbZ9uoJ4JhHLKzj5lzG/kU1KN1Oj3/K
+        admin.passwordMtime: 2019-03-20T17:54:53Z

@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: team-apps
+spec:
+  goTemplate: true
+  generators:
+    - git:
+        repoURL: &repo https://github.com/<GITHUB_USERNAME>/argocd-admin-training.git
+        revision: HEAD
+        files:
+        - path: apps/*/*.yaml
+  template:
+    metadata:
+      name: '{{.path.basename}}-{{trimSuffix ".yaml" .path.filenameNormalized}}'
+    spec:
+      project: '{{.path.basename}}'
+      source:
+        repoURL: *repo
+        path: '{{.path.path}}/chart'
+        helm:
+          valueFiles:
+          - '../{{.path.filename}}'
+      destination:
+        name: in-cluster
+        namespace: '{{.path.basename}}-{{trimSuffix ".yaml" .path.filenameNormalized}}'
+      syncPolicy:
+        syncOptions:
+        - CreateNamespace=true

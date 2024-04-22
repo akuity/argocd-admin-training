@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: team1
+spec:
+  sourceRepos:
+  - '*'
+
+  destinations:
+  - namespace: '*'
+    server: '*'
+
+  roles:
+  - name: team-admin
+    policies:
+    - p, proj:team1:team-admin, applications, *, team1/*, allow
+    groups:
+    - alice
+
+  clusterResourceWhitelist:
+  - group: '*'
+    kind: '*'
