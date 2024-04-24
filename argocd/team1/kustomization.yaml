@@ -6,3 +6,12 @@ resources:
 
 patches:
   - path: argocd-cm.yaml
+  # Patch to set admin password to "password" (for demo purposes)
+  - patch: |-
+      apiVersion: v1
+      kind: Secret
+      metadata:
+        name: argocd-secret
+      stringData:
+          accounts.alice.password: $2a$10$9VOs8Ny1sVyxo5dGxocIEOyVbK5uyOVjEoqDF/0aC7KO7VxtJvrFi
+          accounts.alice.passwordMtime: 2020-04-24T13:28:46Z

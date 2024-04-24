@@ -61,11 +61,6 @@ other using Argo CD projects. In this exercise we are going to declaratively con
 2. Navigate to Argo CD UI & Oopen `argocd` application details page.
 3. Preview changes and click `Sync` button to perform deploy.
 4. Find a new account in `Settings->Accounts` page.
-5. Set new user password using the command below:
-
-  ```shell
-  argocd account update-password --account alice
-  ```
 
 ## Automate application creation
 
